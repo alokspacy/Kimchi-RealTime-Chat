@@ -14,7 +14,8 @@ const __dirname = path.resolve();
 const PORT = ENV.PORT || 3000;
 
 app.use(express.json({ limit: "5mb" })); // req.body
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+const clientOrigin = ENV.CLIENT_URL ? ENV.CLIENT_URL.replace(/\/$/, "") : "http://localhost:5173";
+app.use(cors({ origin: clientOrigin, credentials: true }));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
