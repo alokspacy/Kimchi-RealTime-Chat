@@ -14,6 +14,9 @@ export const useChatStore = create((set, get) => ({
   isSoundEnabled: JSON.parse(localStorage.getItem("isSoundEnabled")) === true,
   typingUsers: {}, // { [userId]: boolean }
   chatWallpaper: localStorage.getItem("chatWallpaper") || "default",
+  isMobileSidebarOpen: false,
+
+  setMobileSidebarOpen: (isOpen) => set({ isMobileSidebarOpen: isOpen }),
 
   toggleSound: () => {
     localStorage.setItem("isSoundEnabled", !get().isSoundEnabled);
@@ -28,7 +31,7 @@ export const useChatStore = create((set, get) => ({
   setActiveTab: (tab) => set({ activeTab: tab }),
 
   setSelectedUser: (selectedUser) => {
-    set({ selectedUser });
+    set({ selectedUser, isMobileSidebarOpen: false });
     if (selectedUser) {
       get().markAsSeen(selectedUser._id);
     }

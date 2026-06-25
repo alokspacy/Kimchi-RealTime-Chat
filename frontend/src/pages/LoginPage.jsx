@@ -24,9 +24,9 @@ function LoginPage() {
               <div className="w-full max-w-md">
                 {/* HEADING TEXT */}
                 <div className="text-center mb-8">
-                  <KimchiIcon className="w-12 h-12 mx-auto text-kimchi-500 mb-4 animate-pulse" />
+                  <KimchiIcon className="w-12 h-12 mx-auto text-mint-300 mb-4 animate-pulse" />
                   <h2 className="text-2xl font-bold text-slate-200 mb-2">Welcome Back</h2>
-                  <p className="text-slate-400">Log in to enter the spicy conversation room</p>
+                  <p className="text-slate-400">Log in to enter the fresh greenery chatroom</p>
                 </div>
 
                 {/* FORM */}
@@ -82,18 +82,18 @@ function LoginPage() {
             </div>
 
             {/* FORM ILLUSTRATION - RIGHT SIDE */}
-            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-onggi-800/30 to-transparent">
+            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-forest-800/30 to-transparent">
               <div>
                 <img
                   src="/login.png"
                   alt="KimChi Chat Illustration"
-                  className="w-full h-auto max-h-[380px] object-contain rounded-2xl shadow-xl border border-onggi-800/40"
+                  className="w-full h-auto max-h-[380px] object-contain rounded-2xl shadow-xl border border-forest-800/40"
                 />
                 <div className="mt-6 text-center">
-                  <h3 className="text-xl font-medium text-kimchi-400">Fermenting real-time connections</h3>
+                  <h3 className="text-xl font-medium text-mint-300">Fermenting real-time connections</h3>
 
                   <div className="mt-4 flex justify-center gap-4">
-                    <span className="auth-badge">Spicy Chat</span>
+                    <span className="auth-badge">Fresh Green</span>
                     <span className="auth-badge">Real-time</span>
                     <span className="auth-badge">Secure</span>
                   </div>

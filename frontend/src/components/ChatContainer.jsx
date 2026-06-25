@@ -9,11 +9,11 @@ import { CheckIcon, CheckCheckIcon } from "lucide-react";
 
 const wallpaperBgClasses = {
   default: "bg-transparent",
-  spicy: "bg-[linear-gradient(to_bottom,rgba(220,38,38,0.06),transparent)] bg-red-950/20 backdrop-blur-[1px]",
-  matcha: "bg-[linear-gradient(to_bottom,rgba(16,185,129,0.05),transparent)] bg-emerald-950/15 backdrop-blur-[1px]",
-  clay: "bg-[linear-gradient(to_bottom,rgba(180,83,9,0.04),transparent)] bg-amber-950/15 backdrop-blur-[1px]",
-  ginger: "bg-[linear-gradient(to_bottom,rgba(245,158,11,0.03),transparent)] bg-yellow-950/15 backdrop-blur-[1px]",
-  midnight: "bg-black/85 backdrop-blur-[2px]",
+  tea: "bg-[linear-gradient(to_bottom,rgba(16,185,129,0.08),transparent)] bg-emerald-950/20 backdrop-blur-[1px]",
+  blossom: "bg-[linear-gradient(to_bottom,rgba(244,143,177,0.06),transparent)] bg-rose-950/20 backdrop-blur-[1px]",
+  mist: "bg-[linear-gradient(to_bottom,rgba(20,184,166,0.05),transparent)] bg-teal-950/20 backdrop-blur-[1px]",
+  sky: "bg-[linear-gradient(to_bottom,rgba(14,165,233,0.05),transparent)] bg-sky-950/20 backdrop-blur-[1px]",
+  orchid: "bg-[linear-gradient(to_bottom,rgba(139,92,246,0.05),transparent)] bg-violet-950/20 backdrop-blur-[1px]",
 };
 
 function ChatContainer() {
@@ -57,8 +57,8 @@ function ChatContainer() {
                 <div
                   className={`chat-bubble relative ${
                     msg.senderId === authUser._id
-                      ? "bg-kimchi-600 text-white"
-                      : "bg-slate-800 text-slate-200"
+                      ? "bg-mint-600 text-white"
+                      : "bg-slate-800/80 text-slate-200"
                   }`}
                 >
                   {msg.image && (
@@ -76,7 +76,7 @@ function ChatContainer() {
                     {msg.senderId === authUser._id && (
                       <span className="ml-1">
                         {msg.seen ? (
-                          <CheckCheckIcon className="w-3.5 h-3.5 text-blue-400 font-bold" />
+                          <CheckCheckIcon className="w-3.5 h-3.5 text-sky-400 font-bold" />
                         ) : (
                           <CheckIcon className="w-3.5 h-3.5 text-slate-400" />
                         )}

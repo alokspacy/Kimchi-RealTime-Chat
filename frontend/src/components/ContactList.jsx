@@ -18,7 +18,7 @@ function ContactList() {
       {allContacts.map((contact) => (
         <div
           key={contact._id}
-          className="bg-kimchi-500/10 p-4 rounded-lg cursor-pointer hover:bg-kimchi-500/20 transition-colors"
+          className="bg-mint-500/10 p-4 rounded-lg cursor-pointer hover:bg-mint-500/20 transition-colors"
           onClick={() => setSelectedUser(contact)}
         >
           <div className="flex items-center gap-3">

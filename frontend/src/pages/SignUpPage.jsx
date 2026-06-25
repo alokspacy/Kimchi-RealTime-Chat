@@ -24,9 +24,9 @@ function SignUpPage() {
               <div className="w-full max-w-md">
                 {/* HEADING TEXT */}
                 <div className="text-center mb-8">
-                  <KimchiIcon className="w-12 h-12 mx-auto text-kimchi-500 mb-4 animate-pulse" />
+                  <KimchiIcon className="w-12 h-12 mx-auto text-mint-300 mb-4 animate-pulse" />
                   <h2 className="text-2xl font-bold text-slate-200 mb-2">Ferment a New Account</h2>
-                  <p className="text-slate-400">Sign up to join the spiciest chat room</p>
+                  <p className="text-slate-400">Sign up to join the fresh greenery chatroom</p>
                 </div>
 
                 {/* FORM */}
@@ -98,15 +98,15 @@ function SignUpPage() {
             </div>
 
             {/* FORM ILLUSTRATION - RIGHT SIDE */}
-            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-onggi-800/30 to-transparent">
+            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-forest-800/30 to-transparent">
               <div>
                 <img
                   src="/signup.png"
                   alt="KimChi Chat Illustration"
-                  className="w-full h-auto max-h-[380px] object-contain rounded-2xl shadow-xl border border-onggi-800/40"
+                  className="w-full h-auto max-h-[380px] object-contain rounded-2xl shadow-xl border border-forest-800/40"
                 />
                 <div className="mt-6 text-center">
-                  <h3 className="text-xl font-medium text-kimchi-400">Start Your Spicy Journey Today</h3>
+                  <h3 className="text-xl font-medium text-mint-300">Start Your Nature Journey Today</h3>
 
                   <div className="mt-4 flex justify-center gap-4">
                     <span className="auth-badge">Free</span>
