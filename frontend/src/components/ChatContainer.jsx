@@ -7,13 +7,38 @@ import MessageInput from "./MessageInput";
 import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
 import { CheckIcon, CheckCheckIcon } from "lucide-react";
 
-const wallpaperBgClasses = {
-  default: "bg-transparent",
-  tea: "bg-[linear-gradient(to_bottom,rgba(16,185,129,0.08),transparent)] bg-emerald-950/20 backdrop-blur-[1px]",
-  blossom: "bg-[linear-gradient(to_bottom,rgba(244,143,177,0.06),transparent)] bg-rose-950/20 backdrop-blur-[1px]",
-  mist: "bg-[linear-gradient(to_bottom,rgba(20,184,166,0.05),transparent)] bg-teal-950/20 backdrop-blur-[1px]",
-  sky: "bg-[linear-gradient(to_bottom,rgba(14,165,233,0.05),transparent)] bg-sky-950/20 backdrop-blur-[1px]",
-  orchid: "bg-[linear-gradient(to_bottom,rgba(139,92,246,0.05),transparent)] bg-violet-950/20 backdrop-blur-[1px]",
+const wallpaperBgStyles = {
+  default: {},
+  tea: {
+    backgroundImage: "linear-gradient(to bottom, rgba(6, 78, 59, 0.93), rgba(6, 78, 59, 0.96)), url('/wallpapers/jeju_tea.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  },
+  blossom: {
+    backgroundImage: "linear-gradient(to bottom, rgba(55, 15, 25, 0.92), rgba(55, 15, 25, 0.96)), url('/wallpapers/cherry_blossom.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  },
+  mist: {
+    backgroundImage: "linear-gradient(to bottom, rgba(13, 27, 30, 0.92), rgba(13, 27, 30, 0.96)), url('/wallpapers/misty_forest.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  },
+  sky: {
+    backgroundImage: "linear-gradient(to bottom, rgba(10, 25, 47, 0.92), rgba(10, 25, 47, 0.96)), url('/wallpapers/jeju_breeze.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  },
+  orchid: {
+    backgroundImage: "linear-gradient(to bottom, rgba(30, 10, 45, 0.92), rgba(30, 10, 45, 0.96)), url('/wallpapers/orchid_valley.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  },
 };
 
 function ChatContainer() {
@@ -46,7 +71,10 @@ function ChatContainer() {
   return (
     <>
       <ChatHeader />
-      <div className={`flex-1 px-6 overflow-y-auto py-8 transition-colors duration-300 ${wallpaperBgClasses[chatWallpaper] || wallpaperBgClasses.default}`}>
+      <div
+        className="flex-1 px-6 overflow-y-auto py-8 transition-all duration-300"
+        style={wallpaperBgStyles[chatWallpaper] || wallpaperBgStyles.default}
+      >
         {messages.length > 0 && !isMessagesLoading ? (
           <div className="max-w-3xl mx-auto space-y-6">
             {messages.map((msg) => (
