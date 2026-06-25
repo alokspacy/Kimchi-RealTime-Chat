@@ -27,6 +27,29 @@ export const getMessagesByUserId = async (req, res) => {
       ],
     });
 
+    // Auto mark incoming messages as seen
+    const unreadCount = await Message.countDocuments({
+      senderId: userToChatId,
+      receiverId: myId,
+      seen: false,
+    });
+
+    if (unreadCount > 0) {
+      await Message.updateMany(
+        { senderId: userToChatId, receiverId: myId, seen: false },
+        { $set: { seen: true } }
+      );
+
+      // Notify the sender
+      const senderSocketId = getReceiverSocketId(userToChatId);
+      if (senderSocketId) {
+        io.to(senderSocketId).emit("messagesSeen", {
+          senderId: userToChatId,
+          receiverId: myId,
+        });
+      }
+    }
+
     res.status(200).json(messages);
   } catch (error) {
     console.log("Error in getMessages controller: ", error.message);
@@ -103,6 +126,31 @@ export const getChatPartners = async (req, res) => {
     res.status(200).json(chatPartners);
   } catch (error) {
     console.error("Error in getChatPartners: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const markMessagesAsSeen = async (req, res) => {
+  try {
+    const myId = req.user._id;
+    const { id: senderId } = req.params;
+
+    await Message.updateMany(
+      { senderId, receiverId: myId, seen: false },
+      { $set: { seen: true } }
+    );
+
+    const senderSocketId = getReceiverSocketId(senderId);
+    if (senderSocketId) {
+      io.to(senderSocketId).emit("messagesSeen", {
+        senderId,
+        receiverId: myId,
+      });
+    }
+
+    res.status(200).json({ message: "Messages marked as seen" });
+  } catch (error) {
+    console.log("Error in markMessagesAsSeen controller: ", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };

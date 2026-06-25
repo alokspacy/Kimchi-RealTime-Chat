@@ -12,14 +12,27 @@ export const useChatStore = create((set, get) => ({
   isUsersLoading: false,
   isMessagesLoading: false,
   isSoundEnabled: JSON.parse(localStorage.getItem("isSoundEnabled")) === true,
+  typingUsers: {}, // { [userId]: boolean }
+  chatWallpaper: localStorage.getItem("chatWallpaper") || "default",
 
   toggleSound: () => {
     localStorage.setItem("isSoundEnabled", !get().isSoundEnabled);
     set({ isSoundEnabled: !get().isSoundEnabled });
   },
 
+  setChatWallpaper: (wallpaper) => {
+    localStorage.setItem("chatWallpaper", wallpaper);
+    set({ chatWallpaper: wallpaper });
+  },
+
   setActiveTab: (tab) => set({ activeTab: tab }),
-  setSelectedUser: (selectedUser) => set({ selectedUser }),
+
+  setSelectedUser: (selectedUser) => {
+    set({ selectedUser });
+    if (selectedUser) {
+      get().markAsSeen(selectedUser._id);
+    }
+  },
 
   getAllContacts: async () => {
     set({ isUsersLoading: true });
@@ -32,6 +45,7 @@ export const useChatStore = create((set, get) => ({
       set({ isUsersLoading: false });
     }
   },
+
   getMyChatPartners: async () => {
     set({ isUsersLoading: true });
     try {
@@ -68,19 +82,42 @@ export const useChatStore = create((set, get) => ({
       receiverId: selectedUser._id,
       text: messageData.text,
       image: messageData.image,
+      seen: false,
       createdAt: new Date().toISOString(),
-      isOptimistic: true, // flag to identify optimistic messages (optional)
+      isOptimistic: true,
     };
-    // immidetaly update the ui by adding the message
+
     set({ messages: [...messages, optimisticMessage] });
 
     try {
       const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);
       set({ messages: messages.concat(res.data) });
     } catch (error) {
-      // remove optimistic message on failure
       set({ messages: messages });
       toast.error(error.response?.data?.message || "Something went wrong");
+    }
+  },
+
+  markAsSeen: async (senderId) => {
+    try {
+      await axiosInstance.put(`/messages/seen/${senderId}`);
+      set((state) => ({
+        messages: state.messages.map((msg) =>
+          msg.senderId === senderId ? { ...msg, seen: true } : msg
+        ),
+      }));
+    } catch (error) {
+      console.log("Error in markAsSeen:", error);
+    }
+  },
+
+  sendTypingStatus: (receiverId, isTyping) => {
+    const socket = useAuthStore.getState().socket;
+    if (!socket) return;
+    if (isTyping) {
+      socket.emit("typing", { receiverId });
+    } else {
+      socket.emit("stopTyping", { receiverId });
     }
   },
 
@@ -89,25 +126,62 @@ export const useChatStore = create((set, get) => ({
     if (!selectedUser) return;
 
     const socket = useAuthStore.getState().socket;
+    if (!socket) return;
 
+    // listen for new messages
     socket.on("newMessage", (newMessage) => {
       const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
       if (!isMessageSentFromSelectedUser) return;
+
+      // Automatically mark received message as seen if the conversation is active
+      get().markAsSeen(selectedUser._id);
+      newMessage.seen = true;
 
       const currentMessages = get().messages;
       set({ messages: [...currentMessages, newMessage] });
 
       if (isSoundEnabled) {
         const notificationSound = new Audio("/sounds/notification.mp3");
-
-        notificationSound.currentTime = 0; // reset to start
+        notificationSound.currentTime = 0;
         notificationSound.play().catch((e) => console.log("Audio play failed:", e));
       }
+    });
+
+    // listen for read receipts
+    socket.on("messagesSeen", ({ senderId, receiverId }) => {
+      const { authUser } = useAuthStore.getState();
+      // If the active user was the sender of these messages, mark them as seen locally
+      if (senderId === authUser._id && receiverId === selectedUser._id) {
+        set((state) => ({
+          messages: state.messages.map((msg) =>
+            msg.senderId === authUser._id ? { ...msg, seen: true } : msg
+          ),
+        }));
+      }
+    });
+
+    // listen for typing statuses
+    socket.on("typing", ({ senderId }) => {
+      if (senderId !== selectedUser._id) return;
+      set((state) => ({
+        typingUsers: { ...state.typingUsers, [senderId]: true },
+      }));
+    });
+
+    socket.on("stopTyping", ({ senderId }) => {
+      if (senderId !== selectedUser._id) return;
+      set((state) => ({
+        typingUsers: { ...state.typingUsers, [senderId]: false },
+      }));
     });
   },
 
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
+    if (!socket) return;
     socket.off("newMessage");
+    socket.off("messagesSeen");
+    socket.off("typing");
+    socket.off("stopTyping");
   },
 }));

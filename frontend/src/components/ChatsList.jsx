@@ -5,7 +5,7 @@ import NoChatsFound from "./NoChatsFound";
 import { useAuthStore } from "../store/useAuthStore";
 
 function ChatsList() {
-  const { getMyChatPartners, chats, isUsersLoading, setSelectedUser } = useChatStore();
+  const { getMyChatPartners, chats, isUsersLoading, setSelectedUser, typingUsers } = useChatStore();
   const { onlineUsers } = useAuthStore();
 
   useEffect(() => {
@@ -29,7 +29,12 @@ function ChatsList() {
                 <img src={chat.profilePic || "/avatar.png"} alt={chat.fullName} />
               </div>
             </div>
-            <h4 className="text-slate-200 font-medium truncate">{chat.fullName}</h4>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-slate-200 font-medium truncate">{chat.fullName}</h4>
+              {typingUsers[chat._id] && (
+                <p className="text-sprout-400 text-xs font-semibold animate-pulse mt-0.5">typing...</p>
+              )}
+            </div>
           </div>
         </div>
       ))}

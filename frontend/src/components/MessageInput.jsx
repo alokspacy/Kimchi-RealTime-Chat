@@ -10,13 +10,43 @@ function MessageInput() {
   const [imagePreview, setImagePreview] = useState(null);
 
   const fileInputRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
 
-  const { sendMessage, isSoundEnabled } = useChatStore();
+  const { sendMessage, isSoundEnabled, selectedUser, sendTypingStatus } = useChatStore();
+
+  const handleTextChange = (e) => {
+    const value = e.target.value;
+    setText(value);
+    if (isSoundEnabled) playRandomKeyStrokeSound();
+
+    if (selectedUser) {
+      if (!typingTimeoutRef.current) {
+        sendTypingStatus(selectedUser._id, true);
+      }
+
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+
+      typingTimeoutRef.current = setTimeout(() => {
+        sendTypingStatus(selectedUser._id, false);
+        typingTimeoutRef.current = null;
+      }, 1500);
+    }
+  };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
     if (isSoundEnabled) playRandomKeyStrokeSound();
+
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = null;
+    }
+    if (selectedUser) {
+      sendTypingStatus(selectedUser._id, false);
+    }
 
     sendMessage({
       text: text.trim(),
@@ -69,10 +99,7 @@ function MessageInput() {
         <input
           type="text"
           value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-            isSoundEnabled && playRandomKeyStrokeSound();
-          }}
+          onChange={handleTextChange}
           className="flex-1 bg-slate-800/50 border border-slate-700/50 rounded-lg py-2 px-4"
           placeholder="Type your message..."
         />
