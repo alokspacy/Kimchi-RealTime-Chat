@@ -1,8 +1,11 @@
 import KimchiIcon from "./KimchiIcon";
+import { useChatStore } from "../store/useChatStore";
 
 const NoChatHistoryPlaceholder = ({ name }) => {
+  const { setMessageInputText } = useChatStore();
+
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center p-6">
+    <div className="flex flex-col items-center justify-center h-full text-center p-6 select-none">
       <div className="w-16 h-16 bg-gradient-to-br from-kimchi-500/20 to-kimchi-400/10 rounded-full flex items-center justify-center mb-5">
         <KimchiIcon className="size-8 text-kimchi-400" />
       </div>
@@ -16,13 +19,22 @@ const NoChatHistoryPlaceholder = ({ name }) => {
         <div className="h-px w-32 bg-gradient-to-r from-transparent via-kimchi-500/30 to-transparent mx-auto"></div>
       </div>
       <div className="flex flex-wrap gap-2 justify-center">
-        <button className="px-4 py-2 text-xs font-medium text-kimchi-300 bg-kimchi-500/10 rounded-full hover:bg-kimchi-500/20 transition-colors">
+        <button
+          onClick={() => setMessageInputText("Hello!")}
+          className="px-4 py-2 text-xs font-medium text-kimchi-300 bg-kimchi-500/10 rounded-full hover:bg-kimchi-500/20 transition-colors cursor-pointer"
+        >
           👋 Say Hello
         </button>
-        <button className="px-4 py-2 text-xs font-medium text-kimchi-300 bg-kimchi-500/10 rounded-full hover:bg-kimchi-500/20 transition-colors">
+        <button
+          onClick={() => setMessageInputText("How are you?")}
+          className="px-4 py-2 text-xs font-medium text-kimchi-300 bg-kimchi-500/10 rounded-full hover:bg-kimchi-500/20 transition-colors cursor-pointer"
+        >
           🤝 How are you?
         </button>
-        <button className="px-4 py-2 text-xs font-medium text-kimchi-300 bg-kimchi-500/10 rounded-full hover:bg-kimchi-500/20 transition-colors">
+        <button
+          onClick={() => setMessageInputText("Let's meet up soon!")}
+          className="px-4 py-2 text-xs font-medium text-kimchi-300 bg-kimchi-500/10 rounded-full hover:bg-kimchi-500/20 transition-colors cursor-pointer"
+        >
           📅 Meet up soon?
         </button>
       </div>

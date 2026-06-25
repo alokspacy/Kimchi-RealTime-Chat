@@ -15,8 +15,10 @@ export const useChatStore = create((set, get) => ({
   typingUsers: {}, // { [userId]: boolean }
   chatWallpaper: localStorage.getItem("chatWallpaper") || "default",
   isMobileSidebarOpen: false,
+  messageInputText: "",
 
   setMobileSidebarOpen: (isOpen) => set({ isMobileSidebarOpen: isOpen }),
+  setMessageInputText: (text) => set({ messageInputText: text }),
 
   toggleSound: () => {
     localStorage.setItem("isSoundEnabled", !get().isSoundEnabled);

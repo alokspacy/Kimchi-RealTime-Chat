@@ -6,17 +6,23 @@ import { ImageIcon, SendIcon, XIcon } from "lucide-react";
 
 function MessageInput() {
   const { playRandomKeyStrokeSound } = useKeyboardSound();
-  const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
 
   const fileInputRef = useRef(null);
   const typingTimeoutRef = useRef(null);
 
-  const { sendMessage, isSoundEnabled, selectedUser, sendTypingStatus } = useChatStore();
+  const {
+    sendMessage,
+    isSoundEnabled,
+    selectedUser,
+    sendTypingStatus,
+    messageInputText,
+    setMessageInputText
+  } = useChatStore();
 
   const handleTextChange = (e) => {
     const value = e.target.value;
-    setText(value);
+    setMessageInputText(value);
     if (isSoundEnabled) playRandomKeyStrokeSound();
 
     if (selectedUser) {
@@ -37,7 +43,7 @@ function MessageInput() {
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (!text.trim() && !imagePreview) return;
+    if (!messageInputText.trim() && !imagePreview) return;
     if (isSoundEnabled) playRandomKeyStrokeSound();
 
     if (typingTimeoutRef.current) {
@@ -49,10 +55,10 @@ function MessageInput() {
     }
 
     sendMessage({
-      text: text.trim(),
+      text: messageInputText.trim(),
       image: imagePreview,
     });
-    setText("");
+    setMessageInputText("");
     setImagePreview("");
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -98,9 +104,9 @@ function MessageInput() {
       <form onSubmit={handleSendMessage} className="max-w-3xl mx-auto flex space-x-4">
         <input
           type="text"
-          value={text}
+          value={messageInputText}
           onChange={handleTextChange}
-          className="flex-1 bg-slate-800/50 border border-slate-700/50 rounded-lg py-2 px-4"
+          className="flex-1 bg-slate-800/50 border border-slate-700/50 rounded-lg py-2 px-4 text-slate-100"
           placeholder="Type your message..."
         />
 
@@ -115,7 +121,7 @@ function MessageInput() {
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className={`bg-slate-800/50 text-slate-400 hover:text-slate-200 rounded-lg px-4 transition-colors ${
+          className={`bg-slate-800/50 text-slate-400 hover:text-slate-200 rounded-lg px-4 transition-colors cursor-pointer ${
             imagePreview ? "text-mint-300" : ""
           }`}
         >
@@ -123,8 +129,8 @@ function MessageInput() {
         </button>
         <button
           type="submit"
-          disabled={!text.trim() && !imagePreview}
-          className="bg-gradient-to-r from-mint-500 to-mint-600 text-white rounded-lg px-4 py-2 font-medium hover:from-mint-600 hover:to-mint-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={!messageInputText.trim() && !imagePreview}
+          className="bg-gradient-to-r from-mint-500 to-mint-600 text-white rounded-lg px-4 py-2 font-medium hover:from-mint-600 hover:to-mint-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <SendIcon className="w-5 h-5" />
         </button>
