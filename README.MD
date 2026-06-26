@@ -8,7 +8,7 @@
     Real-Time Messaging Platform with JWT Auth, Cloudinary Image Sharing & Welcome Emails
   </p>
   <p align="center">
-    Real-Time Websockets • Custom JWT Auth • Welcome Emails via Resend • Cloudinary Media Integration • Arcjet Rate-Limiting
+    Real-Time Websockets • Custom JWT Auth • Welcome Emails via Brevo • Cloudinary Media Integration • Arcjet Rate-Limiting
   </p>
 </p>
 
@@ -28,6 +28,7 @@
   <img src="https://img.shields.io/badge/MongoDB-Database-47a248?style=flat-square&logo=mongodb">
   <img src="https://img.shields.io/badge/Socket.io-Real--Time-010101?style=flat-square&logo=socketdotio">
   <img src="https://img.shields.io/badge/Arcjet-Security-blue?style=flat-square">
+  <img src="https://img.shields.io/badge/Brevo-Emails-00a4bd?style=flat-square">
 </p>
 
 ---
@@ -36,7 +37,7 @@
 
 **KimChi Chat** is a high-fidelity, feature-rich real-time messaging application branded and developed by **Alok Singh**. The platform allows users to sign up securely, discover online/offline contacts, exchange private messages and media attachments in real time, customize their chat space with dynamic wallpapers, and toggle sound cues for notifications.
 
-The system features robust backend protection using **Arcjet**'s rate-limiting security and handles transaction-based user registrations with automated welcome emails sent via **Resend**.
+The system features robust backend protection using **Arcjet**'s rate-limiting security and handles transaction-based user registrations with automated welcome emails sent via **Brevo**.
 
 ---
 
@@ -47,7 +48,7 @@ The system features robust backend protection using **Arcjet**'s rate-limiting s
 | ⚡ **Real-Time Messaging** | Instantly send and receive messages powered by a **Socket.io** web socket layer. |
 | 🟢 **Online/Offline Presence** | Real-time presence indicators displaying active and inactive states for all contacts. |
 | 🔐 **Custom JWT Authentication** | Custom JSON Web Token registration and sign-in verification flow (independent of third-party auth platforms). |
-| 📨 **Welcome Emails** | Automatic welcoming transaction email delivery upon signup powered by **Resend**. |
+| 📨 **Welcome Emails** | Automatic welcoming transaction email delivery upon signup powered by **Brevo**. |
 | 🗂️ **Cloudinary Image Sharing** | Upload and preview image attachments in message bubbles via Cloudinary integrations. |
 | 🚦 **Arcjet Security Shield** | Deep rate-limiting and bot detection security built straight into backend Express middlewares. |
 | 🔔 **Custom Audio Alerts** | In-app notification sound effects and typing tone cues with quick-toggle settings. |
@@ -70,7 +71,7 @@ The system features robust backend protection using **Arcjet**'s rate-limiting s
 └──────┬───────────┬──────────────┬────┘
        ▼           ▼              ▼
 ┌───────────┐ ┌──────────┐ ┌──────────┐
-│  MongoDB  │ │Cloudinary│ │  Resend  │
+│  MongoDB  │ │Cloudinary│ │  Brevo   │
 │  Mongoose │ │  Images  │ │  Emails  │
 └───────────┘ └──────────┘ └──────────┘
 ```
@@ -82,7 +83,7 @@ Kimchi-RealTime-Chat
 ├── backend             # Node.js + Express.js Backend API
 │   ├── src
 │   │   ├── controllers # Router handler controllers (auth, message)
-│   │   ├── emails      # Resend setup, email handlers & template layouts
+│   │   ├── emails      # Brevo welcome email handlers & template layouts
 │   │   │   ├── emailHandlers.js
 │   │   │   └── emailTemplates.js
 │   │   ├── lib         # DB configs, Cloudinary, socket & Arcjet setup
@@ -118,8 +119,8 @@ MONGO_URI="your_mongodb_atlas_connection_string"
 NODE_ENV="development"
 JWT_SECRET="your_jwt_secret_signing_key"
 
-# Resend Email Configuration
-RESEND_API_KEY="re_your_resend_api_key"
+# Brevo Email Configuration
+BREVO_API_KEY="xkeysib-your_brevo_api_key"
 EMAIL_FROM="your_verified_domain_or_email"
 EMAIL_FROM_NAME="Kimchi Chat"
 
@@ -188,5 +189,5 @@ cd Kimchi-RealTime-Chat
   
 If you found this project useful, please consider giving it a star! ⭐
 
-Built with ❤️ using React, Express, MongoDB, Socket.io, and Arcjet
+Built with ❤️ using React, Express, MongoDB, Socket.io, Arcjet, and Brevo
 © 2026 KimChi Chat
