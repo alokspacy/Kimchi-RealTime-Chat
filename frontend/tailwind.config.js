@@ -41,6 +41,19 @@ export default {
           600: "#e11d48",
           700: "#be123c",
         },
+        kimchi: {
+          50: "#fff3f1",
+          100: "#ffe4e0",
+          200: "#ffcdc5",
+          300: "#ffa799",
+          400: "#ff745c",
+          500: "#f74326", // spicy kimchi red-orange
+          600: "#e4260a",
+          700: "#c01c05",
+          800: "#9f1908",
+          900: "#841a0d",
+          950: "#490903",
+        },
       },
       animation: {
         border: "border 4s linear infinite",
